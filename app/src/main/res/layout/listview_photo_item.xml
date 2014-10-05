@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Week"
+        android:paddingLeft="20dp"
+        android:textSize="28sp"/>
+    <FrameLayout
+        android:layout_width="250dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true">
+        <!--<GridView-->
+            <!--style="@style/GridView.PhotoGallery"-->
+            <!--android:id="@android:id/list"-->
+            <!--android:numColumns="3" />-->
+        <com.maksapplab.ours.view.GridViewInList
+            style="@style/GridView.PhotoGallery"
+            android:id="@+id/gridlist"
+            android:numColumns="3" />
+        <!--<TextView-->
+            <!--android:id="@+id/empty"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="fill_parent"-->
+            <!--android:gravity="center"-->
+            <!--android:visibility="invisible"/>-->
+    </FrameLayout>
+</RelativeLayout>

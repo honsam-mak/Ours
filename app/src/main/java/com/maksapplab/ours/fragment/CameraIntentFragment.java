@@ -177,7 +177,7 @@ public class CameraIntentFragment extends BaseFragment implements Button.OnClick
     protected File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = PREFIX_PHOTO + timeStamp + "_";
+        String imageFileName = PREFIX_PHOTO + timeStamp + ".jpg";
         File storageDir =
           new File(Environment.getExternalStoragePublicDirectory(
                   Environment.DIRECTORY_PICTURES) + "/" + APP_NAME);
@@ -185,11 +185,7 @@ public class CameraIntentFragment extends BaseFragment implements Button.OnClick
         if(!storageDir.exists()) {
             storageDir.mkdirs();
         }
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
+        File image = new File(storageDir, imageFileName);
 
         // Save a file: path for use with ACTION_VIEW intents
         activity.setCurrentPhotoPath("file:" + image.getAbsolutePath());

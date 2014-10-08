@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.maksapplab.ours.R;
+import com.maksapplab.ours.constants.DatePickerConstant;
 import com.maksapplab.ours.fragment.BaseFragment;
 import com.maksapplab.ours.fragment.CameraIntentFragment;
 import com.maksapplab.ours.fragment.DatePickerFragment;
@@ -104,6 +105,9 @@ public class MainActivity extends CameraActivity implements
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             DatePickerFragment newFragment = new DatePickerFragment();
+            Bundle args = new Bundle();
+            args.putInt(DatePickerConstant.TYPE, DatePickerConstant.PREGNANT_DATE);
+            newFragment.setArguments(args);
             newFragment.show(getFragmentManager(), "datePicker");
             return true;
         }

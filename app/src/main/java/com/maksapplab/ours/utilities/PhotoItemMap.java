@@ -32,7 +32,7 @@ public class PhotoItemMap {
 
     private void process() {
         for(PhotoItem photoItem : photoItemList) {
-            Long diff = DateUtil.getDateDiff(targetDate, photoItem.getDateTaken(), calUnit);
+            Long diff = DateUtil.getDateDiff(targetDate, photoItem.getDisplayDate(), calUnit);
             ArrayList<PhotoItem> photoItemList;
             if(photoItemMap.containsKey(diff)) {
                 photoItemList = photoItemMap.get(diff);

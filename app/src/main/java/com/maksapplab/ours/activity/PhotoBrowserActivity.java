@@ -12,7 +12,7 @@ import com.maksapplab.ours.constants.DatePickerConstant;
 import com.maksapplab.ours.fragment.DatePickerFragment;
 import com.maksapplab.ours.fragment.PhotoBrowserFragment;
 
-import static com.maksapplab.ours.constants.PhotoConstant.PATH;
+import static com.maksapplab.ours.constants.PhotoConstant.*;
 
 public class PhotoBrowserActivity extends Activity {
 
@@ -55,7 +55,7 @@ public class PhotoBrowserActivity extends Activity {
         case R.id.action_settings_display_date:
             DatePickerFragment newFragment = new DatePickerFragment();
             Bundle args = new Bundle();
-            args.putString("ImageName", Uri.parse(mImagePath).getLastPathSegment());
+            args.putString(NAME, Uri.parse(mImagePath).getLastPathSegment());
             args.putInt(DatePickerConstant.TYPE, DatePickerConstant.DISPLAY_DATE);
             newFragment.setArguments(args);
             newFragment.show(getFragmentManager(), "datePicker");

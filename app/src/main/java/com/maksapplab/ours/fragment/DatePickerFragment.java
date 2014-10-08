@@ -4,7 +4,6 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.DatePicker;
 
 import com.maksapplab.ours.constants.DatePickerConstant;
@@ -15,43 +14,43 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import static com.maksapplab.ours.constants.DatePickerConstant.*;
+import static com.maksapplab.ours.constants.PhotoConstant.*;
 import static com.maksapplab.ours.utilities.DateUtil.DATE_FORMAT;
 
 public class DatePickerFragment extends DialogFragment
                     implements DatePickerDialog.OnDateSetListener {
 
     boolean fired = false;
-    int type;
+    int dateType;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            type = getArguments().getInt(DatePickerConstant.TYPE);
-            Log.i("DatePicker", "type = " + type);
+            dateType = getArguments().getInt(DatePickerConstant.TYPE);
         }
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-//        if (savedInstanceState != null) {
-//           type = savedInstanceState.getInt(DatePickerConstant.TYPE);
-//            Log.i("DatePicker", "type = " + type);
-//        }
+
         Calendar newCalendar = Calendar.getInstance();
 
-        if(type == DatePickerConstant.PREGNANT_DATE) {
-            String pregnantDate = PropertyManager.getInstance().getPregnantDate();
-            newCalendar.setTime(DateUtil.parse(pregnantDate));
-        }
-        if(type == DatePickerConstant.DISPLAY_DATE) {
-            String imageName = getArguments().getString("ImageName");
+        switch(dateType) {
+           case PREGNANT_DATE:
+               String pregnantDate = PropertyManager.getInstance().getPregnantDate();
+               newCalendar.setTime(DateUtil.parse(pregnantDate));
+               break;
+            case DISPLAY_DATE:
+                String imageName = getArguments().getString(NAME);
 
-            String displayDate = PropertyManager.getInstance().getProperty(
-                    imageName + "_displaydate",
-                    new SimpleDateFormat(DateUtil.DATE_FORMAT).format(Calendar.getInstance().getTime()));
-            newCalendar.setTime(DateUtil.parse(displayDate));
+                String displayDate = PropertyManager.getInstance().getProperty(
+                        imageName + SURFIX_DISPLAY_DATE,
+                        new SimpleDateFormat(DateUtil.DATE_FORMAT).format(Calendar.getInstance().getTime()));
+                newCalendar.setTime(DateUtil.parse(displayDate));
+                break;
         }
 
         int newYear = newCalendar.get(Calendar.YEAR);
@@ -67,17 +66,17 @@ public class DatePickerFragment extends DialogFragment
 
         if(!fired) {
             Calendar calendar = new GregorianCalendar(year, month, day);
-            if(type == DatePickerConstant.PREGNANT_DATE) {
-                Log.i("DatePicker", "pregnant date is picked");
-                PropertyManager.getInstance().setPregnantDate(
-                        new SimpleDateFormat(DATE_FORMAT).format(calendar.getTime()));
-            }
-            if(type == DatePickerConstant.DISPLAY_DATE) {
-                Log.i("DatePicker", "display date is picked");
-                String imageName = getArguments().getString("ImageName");
-                PropertyManager.getInstance().setProperty(
-                        imageName + "_displaydate",
-                        new SimpleDateFormat(DateUtil.DATE_FORMAT).format(calendar.getTime()));
+            switch(dateType) {
+                case PREGNANT_DATE:
+                    PropertyManager.getInstance().setPregnantDate(
+                            new SimpleDateFormat(DATE_FORMAT).format(calendar.getTime()));
+                    break;
+                case DISPLAY_DATE:
+                    String imageName = getArguments().getString(NAME);
+                    PropertyManager.getInstance().setProperty(
+                            imageName + SURFIX_DISPLAY_DATE,
+                            new SimpleDateFormat(DateUtil.DATE_FORMAT).format(calendar.getTime()));
+                    break;
             }
 
             fired = true;

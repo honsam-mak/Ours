@@ -5,7 +5,7 @@ package com.maksapplab.ours.constants;
  */
 public class DatePickerConstant {
 
-    public static String TYPE = "DatePickerType";
-    public static int PREGNANT_DATE = 1;
-    public static int DISPLAY_DATE = 2;
+    public static final String TYPE = "DatePickerType";
+    public static final int PREGNANT_DATE = 1;
+    public static final int DISPLAY_DATE = 2;
 }

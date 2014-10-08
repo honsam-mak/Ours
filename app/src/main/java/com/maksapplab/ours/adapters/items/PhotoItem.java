@@ -2,7 +2,15 @@ package com.maksapplab.ours.adapters.items;
 
 import android.net.Uri;
 
+import com.maksapplab.ours.manager.PropertyManager;
+import com.maksapplab.ours.utilities.DateUtil;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+
+import static com.maksapplab.ours.constants.PhotoConstant.NAME;
+import static com.maksapplab.ours.constants.PhotoConstant.SURFIX_DISPLAY_DATE;
 
 /**
  * Used to represent a photo item.
@@ -44,5 +52,14 @@ public class PhotoItem {
 
     public void setDateTaken(Date dateTaken) {
         this.dateTaken = dateTaken;
+    }
+
+    public Date getDisplayDate() {
+
+        String displayDate = PropertyManager.getInstance().getProperty(
+                getFullImageUri().getLastPathSegment() + SURFIX_DISPLAY_DATE,
+                new SimpleDateFormat(DateUtil.DATE_FORMAT).format(Calendar.getInstance().getTime()));
+
+        return DateUtil.parse(displayDate);
     }
 }

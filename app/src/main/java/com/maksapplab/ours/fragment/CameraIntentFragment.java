@@ -23,13 +23,11 @@ import android.widget.Toast;
 import com.maksapplab.ours.R;
 import com.maksapplab.ours.activity.MainActivity;
 import com.maksapplab.ours.manager.PropertyManager;
-import com.maksapplab.ours.utilities.DateUtil;
 import com.maksapplab.ours.utilities.ThumbnailUtil;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 import static com.maksapplab.ours.constants.PhotoConstant.PREFIX_PHOTO;
@@ -209,8 +207,7 @@ public class CameraIntentFragment extends BaseFragment implements Button.OnClick
         this.getActivity().sendBroadcast(mediaScanIntent);
 
         ThumbnailUtil.createThumbnails(contentUri);
-
-        saveDisplayDateByCreatedTime(f.getName());
+        PropertyManager.getInstance().saveDisplayDateByCreatedTime(f.getName());
 
 //        SimplePhotoGalleryListFragment.newInstance(2).resetFragmentState();
     }
@@ -280,19 +277,5 @@ public class CameraIntentFragment extends BaseFragment implements Button.OnClick
         File file = new File(activity.getCurrentPhotoPath());
         if (file.exists())
             file.delete();
-    }
-
-    private void saveDisplayDateByCreatedTime(String imageName) {
-        PropertyManager.getInstance().setProperty(
-                imageName + "_displaydate",
-                new SimpleDateFormat(DateUtil.DATE_FORMAT).format(Calendar.getInstance().getTime()));
-    }
-
-    private void printDisplayDate(String imageName) {
-        String displayDate = PropertyManager.getInstance().getProperty(
-                imageName + "_displaydate",
-                new SimpleDateFormat(DateUtil.DATE_FORMAT).format(Calendar.getInstance().getTime()));
-
-        Log.i("Camera", "display date = " + displayDate);
     }
 }

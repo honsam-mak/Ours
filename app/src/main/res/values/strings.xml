@@ -4,7 +4,8 @@
     <string name="app_name">Ours</string>
     <string name="title_section1">Camera</string>
     <string name="title_section2">Gallery</string>
-    <string name="action_settings">設定日期</string>
+    <string name="action_settings_target_date">設定日期</string>
+    <string name="action_settings_import_photo">匯入相簿</string>
     <string name="action_settings_note">描述</string>
     <string name="action_settings_display_date">顯示日期</string>
     <string name="title_activity_photo_browser">Browser</string>

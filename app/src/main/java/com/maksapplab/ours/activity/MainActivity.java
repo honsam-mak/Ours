@@ -1,18 +1,21 @@
 package com.maksapplab.ours.activity;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.maksapplab.ours.R;
 import com.maksapplab.ours.constants.DatePickerConstant;
@@ -20,9 +23,21 @@ import com.maksapplab.ours.fragment.BaseFragment;
 import com.maksapplab.ours.fragment.CameraIntentFragment;
 import com.maksapplab.ours.fragment.DatePickerFragment;
 import com.maksapplab.ours.fragment.PhotoGalleryListFragment;
+import com.maksapplab.ours.fragment.PlaceholderFragment;
 import com.maksapplab.ours.manager.PropertyManager;
+import com.maksapplab.ours.utilities.PhotoUtil;
+import com.maksapplab.ours.utilities.ThumbnailUtil;
 
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
+
+import static com.maksapplab.ours.constants.PhotoConstant.PREFIX_PHOTO;
+import static com.maksapplab.ours.constants.PhotoConstant.SURFIX_DISPLAY_DATE;
 
 
 public class MainActivity extends CameraActivity implements
@@ -46,6 +61,8 @@ public class MainActivity extends CameraActivity implements
     public static final int SIMPLE_CAMERA_INTENT_FRAGMENT = 0;
     public static final int SIMPLE_PHOTO_GALLERY_FRAGMENT = 1;
     public static final int SIMPLE_IMAGEVIEW_FRAGMENT     = 2;
+
+    private static final int IMAGE_PICKER_SELECT = 999;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,16 +119,32 @@ public class MainActivity extends CameraActivity implements
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            DatePickerFragment newFragment = new DatePickerFragment();
-            Bundle args = new Bundle();
-            args.putInt(DatePickerConstant.TYPE, DatePickerConstant.PREGNANT_DATE);
-            newFragment.setArguments(args);
-            newFragment.show(getFragmentManager(), "datePicker");
-            return true;
+        switch(item.getItemId()){
+            case R.id.action_settings_target_date:
+                DatePickerFragment newFragment = new DatePickerFragment();
+                Bundle args = new Bundle();
+                args.putInt(DatePickerConstant.TYPE, DatePickerConstant.PREGNANT_DATE);
+                newFragment.setArguments(args);
+                newFragment.show(getFragmentManager(), "datePicker");
+                return true;
+            case R.id.action_settings_import:
+                Intent i = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(i, IMAGE_PICKER_SELECT);
+                return true;
         }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == IMAGE_PICKER_SELECT  && resultCode == Activity.RESULT_OK) {
+            Uri targetUri = PhotoUtil.copyPhoto(data, this);
+
+            if(targetUri != null) {
+                ThumbnailUtil.createThumbnails(targetUri);
+                PropertyManager.getInstance().saveDisplayDateByCreatedTime(targetUri.getLastPathSegment());
+            }
+        }
     }
 
     @Override
@@ -190,38 +223,4 @@ public class MainActivity extends CameraActivity implements
         }
 
     }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_placeholder_camera, container, false);
-            return rootView;
-        }
-    }
-
 }

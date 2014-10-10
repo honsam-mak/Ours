@@ -56,7 +56,6 @@ public class ScreenSlidePagerActivity extends FragmentActivity {
         mPhotoUris = (ArrayList<PhotoUri>) bundleObject.getSerializable(LISTVIEW_TO_SLIDEPAGE);
 
         NUM_PAGES = mPhotoUris.size();
-        Log.i("SlidePager", "photo number = " + NUM_PAGES);
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);

@@ -5,13 +5,9 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
@@ -28,17 +24,7 @@ import com.maksapplab.ours.manager.PropertyManager;
 import com.maksapplab.ours.utilities.PhotoUtil;
 import com.maksapplab.ours.utilities.ThumbnailUtil;
 
-import org.apache.commons.io.FileUtils;
-
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
-
-import static com.maksapplab.ours.constants.PhotoConstant.PREFIX_PHOTO;
-import static com.maksapplab.ours.constants.PhotoConstant.SURFIX_DISPLAY_DATE;
-
 
 public class MainActivity extends CameraActivity implements
         ActionBar.TabListener, BaseFragment.OnFragmentInteractionListener  {

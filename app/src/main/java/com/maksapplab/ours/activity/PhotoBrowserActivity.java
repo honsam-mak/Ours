@@ -55,7 +55,7 @@ public class PhotoBrowserActivity extends Activity {
         case R.id.action_settings_display_date:
             DatePickerFragment newFragment = new DatePickerFragment();
             Bundle args = new Bundle();
-            args.putString(NAME, Uri.parse(mImagePath).getLastPathSegment());
+            args.putString(BROWSER_TO_DATEPICKER, Uri.parse(mImagePath).getLastPathSegment());
             args.putInt(DatePickerConstant.TYPE, DatePickerConstant.DISPLAY_DATE);
             newFragment.setArguments(args);
             newFragment.show(getFragmentManager(), "datePicker");

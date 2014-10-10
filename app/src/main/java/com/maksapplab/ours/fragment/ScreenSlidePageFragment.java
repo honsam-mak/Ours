@@ -2,6 +2,7 @@ package com.maksapplab.ours.fragment;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,28 +13,19 @@ import com.maksapplab.ours.utilities.PhotoUtil;
 
 import static com.maksapplab.ours.constants.PhotoConstant.URI;
 
-/**
- * Example of loading an image into an image view using the image picker.
- *
- * Created by Rex St. John (on behalf of AirPair.com) on 3/4/14.
- */
-public class PhotoBrowserFragment extends BaseFragment {
+public class ScreenSlidePageFragment extends Fragment {
 
     // Reference to our image view we will use
     private ImageView mSelectedImage;
     private String mImageUri;
 
-    /**
-     * Default empty constructor.
-     */
-    public PhotoBrowserFragment(){
-        super();
-    }
+    public ScreenSlidePageFragment() {super();}
 
-    public static PhotoBrowserFragment newInstance(Uri imageUri) {
-        PhotoBrowserFragment fragment = new PhotoBrowserFragment();
+    public static ScreenSlidePageFragment newInstance(String imageUri) {
+
+        ScreenSlidePageFragment fragment = new ScreenSlidePageFragment();
         Bundle args = new Bundle();
-        args.putString(URI, imageUri.toString());
+        args.putString(URI, imageUri);
         fragment.setArguments(args);
         return fragment;
     }
@@ -46,21 +38,22 @@ public class PhotoBrowserFragment extends BaseFragment {
         }
     }
 
-    /**
-     * OnCreateView fragment override
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
-     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_screen_slide_page, container, false);
 
-        View view  = inflater.inflate(R.layout.fragment_photo_browser, container, false);
-
-        // Set the image view
-        mSelectedImage = (ImageView)view.findViewById(R.id.imageViewFullSized);
+        mSelectedImage = (ImageView) view.findViewById(R.id.image_display);
+        mSelectedImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*
+                 * If the screen is touched, then go back to parent activity
+                 */
+                getActivity().onBackPressed();
+            }
+        });
 
         //Show the image
         mSelectedImage.setImageBitmap(

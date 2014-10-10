@@ -12,10 +12,11 @@ public class PhotoConstant {
     public static final String PREFIX_PHOTO     = "OURS_";
     public static final String PREFIX_THUMBNAIL = "mini_";
 
-    public static final String SURFIX_NOTE         = "_note";
-    public static final String SURFIX_DISPLAY_DATE = "_displaydate";
+    public static final String SUFFIX_NOTE         = "_note";
+    public static final String SUFFIX_DISPLAY_DATE = "_displaydate";
 
-    public static final String URI  = "IMAGE_URI";
-    public static final String PATH = "IMAGE_PATH";
-    public static final String NAME = "IMAGE_NAME";
+    public static final String URI  = "PHOTO_URI";
+    public static final String PATH = "PHOTO_PATH";
+    public static final String BROWSER_TO_DATEPICKER = "PHOTO_NAME";
+    public static final String LISTVIEW_TO_SLIDEPAGE = "PHOTO_URIS";
 }

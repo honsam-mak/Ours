@@ -29,6 +29,15 @@
             android:name=".activity.PhotoNoteActivity"
             android:label="@string/title_activity_photo_note" >
         </activity>
+        <activity
+            android:name=".activity.ScreenSlidePagerActivity"
+            android:label="@string/title_activity_screen_slige_pager"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:parentActivityName="android.support.v4.app.FragmentActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="android.support.v4.app.FragmentActivity" />
+        </activity>
     </application>
 
 </manifest>

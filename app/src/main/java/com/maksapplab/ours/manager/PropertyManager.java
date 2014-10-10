@@ -13,7 +13,7 @@ import com.maksapplab.ours.utilities.DateUtil;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import static com.maksapplab.ours.constants.PhotoConstant.SURFIX_DISPLAY_DATE;
+import static com.maksapplab.ours.constants.PhotoConstant.SUFFIX_DISPLAY_DATE;
 
 /**
  * Created by honsam on 9/28/14.
@@ -81,7 +81,7 @@ public class PropertyManager {
 
     public void saveDisplayDateByCreatedTime(String imageName) {
         PropertyManager.getInstance().setProperty(
-                imageName + SURFIX_DISPLAY_DATE,
+                imageName + SUFFIX_DISPLAY_DATE,
                 new SimpleDateFormat(DateUtil.DATE_FORMAT).format(Calendar.getInstance().getTime()));
     }
 }

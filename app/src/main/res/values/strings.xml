@@ -12,5 +12,9 @@
     <string name="title_activity_photo_note">Note</string>
     <string name="default_note_text">寫點東西</string>
     <string name="group_unit_text">週</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_screen_slige_pager">ScreenSligePagerActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

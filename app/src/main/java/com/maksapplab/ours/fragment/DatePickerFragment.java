@@ -44,10 +44,10 @@ public class DatePickerFragment extends DialogFragment
                newCalendar.setTime(DateUtil.parse(pregnantDate));
                break;
             case DISPLAY_DATE:
-                String imageName = getArguments().getString(NAME);
+                String imageName = getArguments().getString(BROWSER_TO_DATEPICKER);
 
                 String displayDate = PropertyManager.getInstance().getProperty(
-                        imageName + SURFIX_DISPLAY_DATE,
+                        imageName + SUFFIX_DISPLAY_DATE,
                         new SimpleDateFormat(DateUtil.DATE_FORMAT).format(Calendar.getInstance().getTime()));
                 newCalendar.setTime(DateUtil.parse(displayDate));
                 break;
@@ -72,9 +72,9 @@ public class DatePickerFragment extends DialogFragment
                             new SimpleDateFormat(DATE_FORMAT).format(calendar.getTime()));
                     break;
                 case DISPLAY_DATE:
-                    String imageName = getArguments().getString(NAME);
+                    String imageName = getArguments().getString(BROWSER_TO_DATEPICKER);
                     PropertyManager.getInstance().setProperty(
-                            imageName + SURFIX_DISPLAY_DATE,
+                            imageName + SUFFIX_DISPLAY_DATE,
                             new SimpleDateFormat(DateUtil.DATE_FORMAT).format(calendar.getTime()));
                     break;
             }

@@ -3,6 +3,8 @@ package com.maksapplab.ours.utilities;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -71,5 +73,9 @@ public class PhotoUtil {
         String picturePath = cursor.getString(columnIndex);
         cursor.close();
         return picturePath;
+    }
+
+    public static Bitmap getBitmapFromCameraData(Uri selectedImage){
+        return BitmapFactory.decodeFile(selectedImage.toString());
     }
 }

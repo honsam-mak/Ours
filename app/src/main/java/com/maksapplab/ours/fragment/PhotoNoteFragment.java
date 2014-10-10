@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import com.maksapplab.ours.R;
 import com.maksapplab.ours.manager.PropertyManager;
 
-import static com.maksapplab.ours.constants.PhotoConstant.SURFIX_NOTE;
+import static com.maksapplab.ours.constants.PhotoConstant.SUFFIX_NOTE;
 import static com.maksapplab.ours.constants.PhotoConstant.URI;
 
 /**
@@ -138,7 +138,7 @@ public class PhotoNoteFragment extends BaseFragment {
     }
 
     private String getKey(String imagePath) {
-        return imagePath + SURFIX_NOTE;
+        return imagePath + SUFFIX_NOTE;
     }
 
     private void saveNote(String imageName, String note) {

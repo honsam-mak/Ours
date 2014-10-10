@@ -2,6 +2,7 @@ package com.maksapplab.ours.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +12,15 @@ import android.widget.TextView;
 
 import com.maksapplab.ours.R;
 import com.maksapplab.ours.activity.PhotoBrowserActivity;
+import com.maksapplab.ours.activity.ScreenSlidePagerActivity;
 import com.maksapplab.ours.adapters.items.ListViewItem;
 import com.maksapplab.ours.adapters.items.PhotoItem;
+import com.maksapplab.ours.adapters.items.PhotoUri;
 import com.maksapplab.ours.manager.PropertyManager;
 import com.maksapplab.ours.view.GridViewInList;
 
 import static com.maksapplab.ours.constants.PhotoConstant.PATH;
+import static com.maksapplab.ours.constants.PhotoConstant.LISTVIEW_TO_SLIDEPAGE;
 
 import java.util.ArrayList;
 
@@ -60,7 +64,7 @@ public class PhotoListViewAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if(convertView == null) {
             holder = new ViewHolder();
@@ -68,6 +72,29 @@ public class PhotoListViewAdapter extends BaseAdapter {
             holder.gridView = (GridViewInList) convertView.findViewById(R.id.gridlist);
             holder.titleTextView = (TextView) convertView.findViewById(R.id.titleTextView);
             holder.emptyTextView = (TextView) convertView.findViewById(R.id.empty);
+
+            holder.titleTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Prepare the list of photoItems
+                    ArrayList<PhotoItem> photoItemsList = mList.get(position).getPhotoItems();
+                    ArrayList<PhotoUri> photoUris = new ArrayList<PhotoUri>();
+
+                    for(PhotoItem item : photoItemsList) {
+                        PhotoUri uri = new PhotoUri(item.getFullImageUri().getPath());
+                        photoUris.add(uri);
+                    }
+
+                    // Create a Bundle and Put Bundle in on it
+                    Bundle bundleObject = new Bundle();
+                    bundleObject.putSerializable(LISTVIEW_TO_SLIDEPAGE, photoUris);
+
+                    Intent intent = new Intent(mContext, ScreenSlidePagerActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtras(bundleObject);
+                    mContext.startActivity(intent);
+                }
+            });
 
             holder.gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override

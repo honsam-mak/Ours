@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
@@ -55,6 +56,7 @@ public class ScreenSlidePagerActivity extends FragmentActivity {
         mPhotoUris = (ArrayList<PhotoUri>) bundleObject.getSerializable(LISTVIEW_TO_SLIDEPAGE);
 
         NUM_PAGES = mPhotoUris.size();
+        Log.i("SlidePager", "photo number = " + NUM_PAGES);
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);
@@ -98,7 +100,7 @@ public class ScreenSlidePagerActivity extends FragmentActivity {
 
         final Runnable Update = new Runnable() {
             public void run() {
-                if (currentPage == NUM_PAGES - 1) {
+                if (currentPage == NUM_PAGES) {
                     currentPage = 0;
                 }
                 mPager.setCurrentItem(currentPage++, true);

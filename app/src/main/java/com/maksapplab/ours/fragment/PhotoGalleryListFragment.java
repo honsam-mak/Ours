@@ -28,6 +28,7 @@ import com.maksapplab.ours.adapters.items.ListViewItem;
 import com.maksapplab.ours.adapters.items.PhotoItem;
 import com.maksapplab.ours.manager.PropertyManager;
 import com.maksapplab.ours.utilities.DateUtil;
+import com.maksapplab.ours.utilities.LogUtil;
 import com.maksapplab.ours.utilities.PhotoGalleryAsyncLoader;
 import com.maksapplab.ours.utilities.PhotoItemMap;
 
@@ -40,12 +41,8 @@ public class PhotoGalleryListFragment extends BaseFragment implements
         LoaderManager.LoaderCallbacks<List<PhotoItem>>  {
 
     protected OnFragmentInteractionListener mListener;
-//    protected AbsListView mListView;
-//    protected PhotoAdapter mAdapter;
-//    protected ArrayList<PhotoItem> mPhotoListItem;
     protected TextView mEmptyTextView;
     protected ProgressDialog mLoadingProgressDialog;
-//    protected TextView mTitleTextView;
 
     private ListView mListView;
     private PhotoListViewAdapter mListViewAdapter;
@@ -77,16 +74,9 @@ public class PhotoGalleryListFragment extends BaseFragment implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Log.d("Gallery", "onCreate");
-
         // Create an empty loader and pre-initialize the photo list items as an empty list.
         Context context = getActivity().getBaseContext();
 
-        // Set up empty mAdapter
-//        mPhotoListItem = new ArrayList<PhotoItem>() ;
-//        mAdapter = new PhotoAdapter(context,
-//                R.layout.photo_item,
-//                mPhotoListItem, false);
         mListViewItem = new ArrayList<ListViewItem>();
         mListViewAdapter = new PhotoListViewAdapter(context,
                 mListViewItem);
@@ -103,11 +93,8 @@ public class PhotoGalleryListFragment extends BaseFragment implements
 
         View view = inflater.inflate(R.layout.fragment_photo_gallery, container, false);
 
-        // Set the mAdapter
-//        mListView = (AbsListView) view.findViewById(android.R.id.list);
-//        mListView.setAdapter(mAdapter);
         mEmptyTextView = (TextView)view.findViewById(R.id.empty);
-//        mTitleTextView = (TextView) view.findViewById(R.id.titleTextView);
+        // Set the mAdapter
         mListView = (ListView) view.findViewById(R.id.gallery_list);
         mListView.setAdapter(mListViewAdapter);
 
@@ -132,12 +119,6 @@ public class PhotoGalleryListFragment extends BaseFragment implements
      * Used to show a generic empty text warning. Override in inheriting classes.
      */
     protected void resolveEmptyText(){
-//        if(mAdapter.isEmpty()){
-//            mEmptyTextView.setVisibility(View.VISIBLE);
-//            setEmptyText();
-//        } else {
-//            mEmptyTextView.setVisibility(View.INVISIBLE);
-//        }
         if(mListViewItem == null || mListViewItem.isEmpty()) {
             mEmptyTextView.setVisibility(View.VISIBLE);
             setEmptyText();
@@ -149,7 +130,6 @@ public class PhotoGalleryListFragment extends BaseFragment implements
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("Gallery", "onResume");
 
         resetFragmentState();
     }
@@ -157,7 +137,6 @@ public class PhotoGalleryListFragment extends BaseFragment implements
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        Log.d("Gallery", "onAttach");
         try {
             mListener = (OnFragmentInteractionListener) activity;
             // Show a progress dialog.
@@ -223,7 +202,6 @@ public class PhotoGalleryListFragment extends BaseFragment implements
         // Set the new data in the mAdapter.
 //        mPhotoListItem.clear();
         if(mListViewAdapter !=null) {
-//            mListViewAdapter.getItem(0).getPhotoItems().clear();
 
             Log.d("Gallery", "photo item has " + data.size());
 
@@ -232,6 +210,8 @@ public class PhotoGalleryListFragment extends BaseFragment implements
                     DateUtil.parse(PropertyManager.getInstance().getPregnantDate()),
                     Calendar.WEEK_OF_YEAR
             );
+
+            LogUtil.printPhotoMap(pim.getResultMap());
 
             for (Long d : pim.getResultMap().descendingKeySet()) {
                 ListViewItem lvItem = new ListViewItem();
@@ -268,5 +248,4 @@ public class PhotoGalleryListFragment extends BaseFragment implements
             }
         }
     }
-
 }

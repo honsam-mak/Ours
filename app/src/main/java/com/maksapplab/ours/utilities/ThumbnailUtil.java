@@ -63,7 +63,6 @@ public class ThumbnailUtil {
 
         try {
             String filePath = toThumbnailName(uri.getPath());
-            Log.d("ThumbnailUtil", "mini path = " + filePath);
 
             File file = new File(filePath);
 

@@ -1,12 +1,9 @@
 package com.maksapplab.ours.utilities;
 
-import android.util.Log;
-
 import com.maksapplab.ours.adapters.items.PhotoItem;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Map;
 import java.util.TreeMap;
 
 /**
@@ -42,17 +39,6 @@ public class PhotoItemMap {
                 photoItemList.add(photoItem);
             }
             photoItemMap.put(diff, photoItemList);
-        }
-        print();
-    }
-
-    private void print() {
-        for(Long d : photoItemMap.keySet()) {
-            Log.i("Map", "diff = " + d);
-            ArrayList<PhotoItem> itemList = photoItemMap.get(d);
-            for(PhotoItem pi : itemList) {
-                Log.i("List", "item = " + pi.getFullImageUri());
-            }
         }
     }
 }

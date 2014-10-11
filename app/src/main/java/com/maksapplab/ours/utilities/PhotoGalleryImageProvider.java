@@ -91,10 +91,10 @@ public class PhotoGalleryImageProvider {
             String thumbnailPath = ThumbnailUtil.toThumbnailName(photoPath);
             Uri thumbnailUri = Uri.parse(thumbnailPath);
 
-            Log.d("ImageProvider", "thumbnail uri = " + thumbnailUri);
-            Log.d("ImageProvider", "full size uri = " + photoUri);
+//            Log.d("ImageProvider", "thumbnail uri = " + thumbnailUri);
+//            Log.d("ImageProvider", "full size uri = " + photoUri);
 
-            printDate(new Date(dateInMil));
+//            printDate(new Date(dateInMil));
 
             File f = new File(thumbnailPath);
             if (f.exists()) {

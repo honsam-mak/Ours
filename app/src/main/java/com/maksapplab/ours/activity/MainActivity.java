@@ -44,6 +44,8 @@ public class MainActivity extends CameraActivity implements
      */
     ViewPager mViewPager;
 
+    boolean mRefreshGallery;
+
     public static final int SIMPLE_CAMERA_INTENT_FRAGMENT = 0;
     public static final int SIMPLE_PHOTO_GALLERY_FRAGMENT = 1;
     public static final int SIMPLE_IMAGEVIEW_FRAGMENT     = 2;
@@ -129,6 +131,12 @@ public class MainActivity extends CameraActivity implements
             if(targetUri != null) {
                 ThumbnailUtil.createThumbnails(targetUri);
                 PropertyManager.getInstance().saveDisplayDateByCreatedTime(targetUri.getLastPathSegment());
+
+                //Refresh viewpager
+                mSectionsPagerAdapter.notifyDataSetChanged();
+                if(mViewPager.getCurrentItem() == SIMPLE_CAMERA_INTENT_FRAGMENT) {
+                    mViewPager.setCurrentItem(SIMPLE_PHOTO_GALLERY_FRAGMENT, true);
+                }
             }
         }
     }
@@ -137,6 +145,13 @@ public class MainActivity extends CameraActivity implements
     public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
         // When the given tab is selected, switch to the corresponding page in
         // the ViewPager.
+        if(tab.getPosition() == SIMPLE_PHOTO_GALLERY_FRAGMENT &&
+                mRefreshGallery) {
+            // Add here in order to refresh only on tab change to photo gallery
+            mSectionsPagerAdapter.notifyDataSetChanged();
+            mRefreshGallery = false;
+        }
+
         mViewPager.setCurrentItem(tab.getPosition());
     }
 
@@ -171,7 +186,7 @@ public class MainActivity extends CameraActivity implements
      * A {@link android.support.v13.app.FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    public class SectionsPagerAdapter extends FragmentStatePagerAdapter{
+     public class SectionsPagerAdapter extends FragmentStatePagerAdapter{
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -208,5 +223,21 @@ public class MainActivity extends CameraActivity implements
             return null;
         }
 
+        /*
+         * Must add the getItemPosition. It addressed the issue of calling notifyDataSetChange not working.
+         * After adding it, the photo gallery list fragment will be refreshed when take photo.
+         */
+        @Override
+        public int getItemPosition(Object object){
+            return POSITION_NONE;
+        }
+    }
+
+    public void setFreshGallery(boolean fresh) {
+        mRefreshGallery = fresh;
+    }
+
+    public boolean isNeedFreshGallery() {
+        return mRefreshGallery;
     }
 }

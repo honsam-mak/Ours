@@ -22,13 +22,17 @@ import android.widget.Toast;
 
 import com.maksapplab.ours.R;
 import com.maksapplab.ours.activity.MainActivity;
+import com.maksapplab.ours.adapters.items.PhotoItem;
 import com.maksapplab.ours.manager.PropertyManager;
+import com.maksapplab.ours.utilities.LogUtil;
+import com.maksapplab.ours.utilities.PhotoGalleryImageProvider;
 import com.maksapplab.ours.utilities.ThumbnailUtil;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import static com.maksapplab.ours.constants.PhotoConstant.PREFIX_PHOTO;
 
@@ -162,6 +166,12 @@ public class CameraIntentFragment extends BaseFragment implements Button.OnClick
             setFullImageFromFilePath(activity.getCurrentPhotoPath(), mImageView);
 
             removeImage(getLastImageId(activity));
+
+            List<PhotoItem> pi = PhotoGalleryImageProvider.getAlbumPhotos(activity);
+            LogUtil.printPhotoList(pi);
+
+            //Should set the refresh of the photo gallery list fragment here
+            activity.setFreshGallery(true);
         } else {
             Toast.makeText(getActivity(), "Image Capture Failed", Toast.LENGTH_SHORT)
                     .show();
@@ -181,7 +191,7 @@ public class CameraIntentFragment extends BaseFragment implements Button.OnClick
         String imageFileName = PREFIX_PHOTO + timeStamp + ".jpg";
         File storageDir =
           new File(Environment.getExternalStoragePublicDirectory(
-                  Environment.DIRECTORY_PICTURES) + "/" + APP_NAME);
+                  Environment.DIRECTORY_PICTURES) + File.separator + APP_NAME);
 
         if(!storageDir.exists()) {
             storageDir.mkdirs();
@@ -200,16 +210,13 @@ public class CameraIntentFragment extends BaseFragment implements Button.OnClick
      * disappear once taken.
      */
     protected void addPhotoToGallery() {
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         File f = new File(activity.getCurrentPhotoPath());
         Uri contentUri = Uri.fromFile(f);
-        mediaScanIntent.setData(contentUri);
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, contentUri);
         this.getActivity().sendBroadcast(mediaScanIntent);
 
         ThumbnailUtil.createThumbnails(contentUri);
         PropertyManager.getInstance().saveDisplayDateByCreatedTime(f.getName());
-
-//        SimplePhotoGalleryListFragment.newInstance(2).resetFragmentState();
     }
 
     /**
@@ -253,10 +260,11 @@ public class CameraIntentFragment extends BaseFragment implements Button.OnClick
             int id = imageCursor.getInt(imageCursor.getColumnIndex(MediaStore.Images.Media._ID));
             String fullPath =
                     imageCursor.getString(imageCursor.getColumnIndex(MediaStore.Images.Media.DATA));
-            Log.d("Camera", "getLastImageId::id " + id);
-            Log.d("Camera", "getLastImageId::path " + fullPath);
 
-            if(!fullPath.contains(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/" + APP_NAME)){
+            if(!fullPath.contains(
+                    Environment.getExternalStoragePublicDirectory(
+                            Environment.DIRECTORY_PICTURES) + File.separator + APP_NAME)){
+
                 imageCursor.close();
                 return id;
             }

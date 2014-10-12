@@ -4,10 +4,10 @@
     <string name="app_name">Ours</string>
     <string name="title_section1">拍照</string>
     <string name="title_section2">相片集</string>
-    <string name="action_settings_target_date">設定日期</string>
-    <string name="action_settings_import_photo">匯入相簿</string>
+    <string name="action_settings_target_date">設定創建相簿日期</string>
+    <string name="action_settings_import_photo">匯入相片</string>
     <string name="action_settings_note">描述</string>
-    <string name="action_settings_display_date">顯示日期</string>
+    <string name="action_settings_display_date">修改拍照日期</string>
     <string name="title_activity_photo_browser">相片</string>
     <string name="title_activity_photo_note">記事本</string>
     <string name="default_note_text">寫點東西</string>

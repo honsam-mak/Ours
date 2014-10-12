@@ -6,6 +6,7 @@ import android.app.DialogFragment;
 import android.os.Bundle;
 import android.widget.DatePicker;
 
+import com.maksapplab.ours.activity.MainActivity;
 import com.maksapplab.ours.constants.DatePickerConstant;
 import com.maksapplab.ours.manager.PropertyManager;
 import com.maksapplab.ours.utilities.DateUtil;
@@ -70,6 +71,7 @@ public class DatePickerFragment extends DialogFragment
                 case PREGNANT_DATE:
                     PropertyManager.getInstance().setPregnantDate(
                             new SimpleDateFormat(DATE_FORMAT).format(calendar.getTime()));
+                    ((MainActivity)getActivity()).getmSectionsPagerAdapter().notifyDataSetChanged();
                     break;
                 case DISPLAY_DATE:
                     String imageName = getArguments().getString(BROWSER_TO_DATEPICKER);

@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -51,6 +52,10 @@ public class MainActivity extends CameraActivity implements
     public static final int SIMPLE_IMAGEVIEW_FRAGMENT     = 2;
 
     private static final int IMAGE_PICKER_SELECT = 999;
+
+    public SectionsPagerAdapter getmSectionsPagerAdapter() {
+        return mSectionsPagerAdapter;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +130,7 @@ public class MainActivity extends CameraActivity implements
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("MainActivity", "onActivityResult");
         if (requestCode == IMAGE_PICKER_SELECT  && resultCode == Activity.RESULT_OK) {
             Uri targetUri = PhotoUtil.copyPhoto(data, this);
 

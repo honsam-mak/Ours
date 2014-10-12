@@ -135,7 +135,7 @@ public class MainActivity extends CameraActivity implements
                 //Refresh viewpager
                 mSectionsPagerAdapter.notifyDataSetChanged();
                 if(mViewPager.getCurrentItem() == SIMPLE_CAMERA_INTENT_FRAGMENT) {
-                    mViewPager.setCurrentItem(SIMPLE_PHOTO_GALLERY_FRAGMENT, true);
+                    mViewPager.setCurrentItem(SIMPLE_PHOTO_GALLERY_FRAGMENT, false);
                 }
             }
         }

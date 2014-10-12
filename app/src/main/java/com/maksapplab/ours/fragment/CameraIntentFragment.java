@@ -167,7 +167,7 @@ public class CameraIntentFragment extends BaseFragment implements Button.OnClick
 
             removeImage(getLastImageId(activity));
 
-            List<PhotoItem> pi = PhotoGalleryImageProvider.getAlbumPhotos(activity);
+            List<PhotoItem> pi = PhotoGalleryImageProvider.getAlbumPhotos();
             LogUtil.printPhotoList(pi);
 
             //Should set the refresh of the photo gallery list fragment here

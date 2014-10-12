@@ -35,8 +35,7 @@ public class PhotoGalleryAsyncLoader extends AsyncTaskLoader<List<PhotoItem>> {
      */
     @Override
     public List<PhotoItem> loadInBackground() {
-        final Context context = getContext();
-        List<PhotoItem> photos = PhotoGalleryImageProvider.getAlbumPhotos(context);
+        List<PhotoItem> photos = PhotoGalleryImageProvider.getAlbumPhotos();
         return photos;
     }
 

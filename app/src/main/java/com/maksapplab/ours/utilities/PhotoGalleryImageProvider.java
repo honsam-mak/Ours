@@ -1,21 +1,13 @@
 package com.maksapplab.ours.utilities;
 
-import android.content.Context;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 
 import com.maksapplab.ours.adapters.items.PhotoItem;
-import com.maksapplab.ours.manager.PropertyManager;
 
 import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import static com.maksapplab.ours.constants.PhotoConstant.*;
@@ -35,90 +27,25 @@ public class PhotoGalleryImageProvider {
                                 Environment.getExternalStorageDirectory().toString()
                                 + File.separator + DESTINATION_FOLDER;
 
-    public static final String CAMERA_IMAGE_BUCKET_ID =
-                                getBucketId(CAMERA_IMAGE_BUCKET_NAME);
+    public static List<PhotoItem> getAlbumPhotos() {
 
-    /**
-     * Matches code in MediaProvider.computeBucketValues. Should be a common
-     * function.
-     */
-    public static String getBucketId(String path) {
-        return String.valueOf(path.toLowerCase().hashCode());
-    }
+        File[] files = new File(CAMERA_IMAGE_BUCKET_NAME).listFiles();
+        List<PhotoItem> result = new ArrayList<PhotoItem>(files.length);
 
-    public static List<PhotoItem> getAlbumPhotos(Context context) {
+        for(File file : files) {
+            if(file.isFile()) {
+                String photoPath = file.getPath();
+                String thumbnalPath = ThumbnailUtil.toThumbnailName(photoPath);
 
-        final String[] projection = {
-                MediaStore.Images.Media.DATA,
-                MediaStore.Images.Media.DATE_TAKEN
-            };
-        final String selection = MediaStore.Images.Media.BUCKET_ID + " = ?";
-        final String[] selectionArgs = { CAMERA_IMAGE_BUCKET_ID};
-
-        Cursor fullSizePhotoCursor = context.getContentResolver().query(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                projection, // Which columns to return
-                selection,
-                selectionArgs,
-                null);
-
-        int photoColumnIndex = fullSizePhotoCursor.getColumnIndex(MediaStore.Images.Media.DATA);
-        int dateColumnIndex = fullSizePhotoCursor.getColumnIndex(MediaStore.Images.Media.DATE_TAKEN);
-        ArrayList<PhotoItem> result = new ArrayList<PhotoItem>(fullSizePhotoCursor.getCount());
-
-        if (fullSizePhotoCursor.moveToFirst()) {
-            do {
-                preparePhotoItemList(fullSizePhotoCursor, photoColumnIndex, dateColumnIndex, result);
-            } while (fullSizePhotoCursor.moveToNext());
-        }
-        fullSizePhotoCursor.close();
-        return result;
-    }
-
-    private static void preparePhotoItemList(
-            Cursor cursor,
-            int photoColumnIndex,
-            int dateColumnIndex,
-            ArrayList<PhotoItem> result) {
-
-        int photoImageID = cursor.getInt(photoColumnIndex);
-        String photoPath = cursor.getString(photoImageID);
-
-        Long dateInMil = cursor.getLong(dateColumnIndex);
-
-        if(photoPath.contains(DESTINATION_FOLDER)) {
-            Uri photoUri = Uri.parse(photoPath);
-            String thumbnailPath = ThumbnailUtil.toThumbnailName(photoPath);
-            Uri thumbnailUri = Uri.parse(thumbnailPath);
-
-//            Log.d("ImageProvider", "thumbnail uri = " + thumbnailUri);
-//            Log.d("ImageProvider", "full size uri = " + photoUri);
-
-//            printDate(new Date(dateInMil));
-
-            File f = new File(thumbnailPath);
-            if (f.exists()) {
-                // Create the list item.
-                PhotoItem newItem = new PhotoItem(thumbnailUri, photoUri, new Date(dateInMil));
-                result.add(newItem);
-            } else {
-                Log.d("ImageProvider", " this image has no thumbnail :" + photoImageID);
+                File f = new File(thumbnalPath);
+                if(f.exists()) {
+                    PhotoItem newItem = new PhotoItem(Uri.parse(thumbnalPath), Uri.parse(photoPath));
+                    result.add(newItem);
+                } else {
+                    Log.i("ImageProvider", "this image has no thumbnail : " + file.getName());
+                }
             }
-        } else {
-            Log.d("ImageProvider", " this image has no thumbnail :" + photoImageID);
         }
-    }
-
-    private static void printDate(Date d) {
-        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-        Log.i("Gallery", "date taken = " + sdf.format(d));
-
-        //Restore preferences
-        String pregnantDate = PropertyManager.getInstance().getPregnantDate();
-        Date pregDate = DateUtil.parse(pregnantDate);
-
-        Log.i("Gallery", "difference in day = " + DateUtil.getDateDiff(d, pregDate, Calendar.DATE));
-        Log.i("Gallery", "difference in week = " + DateUtil.getWeekDiff(d, pregDate));
+        return result;
     }
 }

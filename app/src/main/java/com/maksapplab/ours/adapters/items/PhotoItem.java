@@ -18,12 +18,10 @@ public class PhotoItem {
 
     private Uri thumbnailUri;
     private Uri fullImageUri;
-    private Date dateTaken;
 
-    public PhotoItem(Uri thumbnailUri,Uri fullImageUri, Date dateTaken) {
+    public PhotoItem(Uri thumbnailUri,Uri fullImageUri) {
         this.thumbnailUri = thumbnailUri;
         this.fullImageUri = fullImageUri;
-        this.dateTaken = dateTaken;
     }
 
     /**
@@ -43,14 +41,6 @@ public class PhotoItem {
 
     public void setFullImageUri(Uri fullImageUri) {
         this.fullImageUri = fullImageUri;
-    }
-
-    public Date getDateTaken() {
-        return dateTaken;
-    }
-
-    public void setDateTaken(Date dateTaken) {
-        this.dateTaken = dateTaken;
     }
 
     public Date getDisplayDate() {

@@ -3,8 +3,8 @@
     tools:context="com.maksapplab.ours.activity.PhotoBrowserActivity" >
     <item android:id="@+id/action_settings_note"
         android:title="@string/action_settings_note"
-        android:orderInCategory="100"
-        android:showAsAction="never" />
+        android:icon="@drawable/ic_action_new_event"
+        android:showAsAction="ifRoom" />
     <item android:id="@+id/action_settings_display_date"
         android:title="@string/action_settings_display_date"
         android:orderInCategory="101"

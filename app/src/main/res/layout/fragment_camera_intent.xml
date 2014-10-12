@@ -34,10 +34,11 @@
         android:src="@drawable/placeholder" />
 
     <Button
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Take Photo"
+        android:text="@string/take_photo"
         android:id="@+id/button"
+        android:background="@drawable/round_button"
         android:layout_gravity="center|bottom"
         android:layout_marginBottom="10dp"
         android:layout_margin="10dp" />

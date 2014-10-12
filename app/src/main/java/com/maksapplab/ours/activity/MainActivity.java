@@ -158,7 +158,7 @@ public class MainActivity extends CameraActivity implements
             mRefreshGallery = false;
         }
 
-        mViewPager.setCurrentItem(tab.getPosition());
+        mViewPager.setCurrentItem(tab.getPosition(), false);
     }
 
     @Override

@@ -6,7 +6,7 @@
         android:orderInCategory="100"
         android:showAsAction="never" />
     <item android:id="@+id/action_settings_import"
+        android:icon="@drawable/ic_action_new_picture"
         android:title="@string/action_settings_import_photo"
-        android:orderInCategory="100"
-        android:showAsAction="never" />
+        android:showAsAction="ifRoom" />
 </menu>
